@@ -1,46 +1,42 @@
-# Cloud Operations — ITGC Proof of Concept
+# Batch Job and Backup Operations — Proof of Concept
 
 ![CI](https://github.com/MaxwellM-GRC/cloud-operations-poc/actions/workflows/ci.yml/badge.svg)
 
-**Full population monitoring for scheduled cloud processing, backups, failure
-resolution, and tested recoverability.**
+Automated detection reconciles expected cloud batch schedules, Kubernetes CronJob and AWS Step Functions execution records, AWS Backup jobs, incident records, and restore test evidence.
 
-This standalone POC implements `ITGC-OPS-001` from the Cloud Native ITGC Automation
-portfolio. It reconciles expected executions to fictional Kubernetes CronJob, AWS
-Step Functions/CloudWatch, and AWS Backup records; evaluates incident response; and
-checks whether protected resources have current, successful restore tests.
+> All names, people, organizations, systems, accounts, and records in this repository are fictional. No employer, client, or production data is included.
 
-> **Sanitized:** every organization, person, account, resource, job, incident, and
-> source location is fictional. No employer, client, or production data is present.
+## The problem it catches
 
-## What it detects
+A recorded job execution alone does not demonstrate that every required process ran, that a failure was resolved on time, or that affected financial data was reconciled. Similarly, a completed backup does not prove that a failed backup received a replacement recovery point or that a restore remains possible.
 
-| Rule | Automated assertion | Severity |
+The fictional fixture includes a missing settlement export, a late revenue rollup resolution without data integrity evidence, an unresolved ledger backup, a failed ledger restore test without approved remediation, and an overdue application state restore test. Each becomes a separate exception case for human review.
+
+## What this control tests
+
+| Rule ID | Control assertion | Severity |
 |---|---|---|
 | OPS-01 | Each expected job and backup has a recorded execution result. | High |
 | OPS-02 | Failed, delayed, or skipped jobs have timely incident, resolution, and data integrity evidence. | High |
 | OPS-03 | Backup failures are resolved and successful backup completion is evidenced. | High |
-| OPS-04 | Required restore tests are current and pass or have approved remediation. | High |
-
-The fixture intentionally produces five individual findings across four scenarios:
-a missing settlement export, a late and unsupported revenue rollup resolution, an
-unresolved ledger backup, a failed ledger restore test, and an overdue Kubernetes
-application state restore test.
+| OPS-04 | Required restore tests occur within policy frequency and pass or have approved remediation. | High |
 
 ## How it works
 
 ```text
 CMDB + expected schedules ───┐
-Kubernetes / Step Functions ├─► provenance checks ─► population reconciliation
-AWS Backup + incidents ──────┤                              │
-Restore test registry ───────┘                              ▼
-                                            rule results + individual cases
+Kubernetes / Step Functions ├─► source provenance gate ─► full population review
+AWS Backup + incidents ──────┤                                  │
+Restore test registry ───────┘                                  ▼
+                                               rule results + exception cases
 ```
 
-The review fails closed if a required source is missing, changed, incomplete, or
-lacks provenance. It records the source query, collection time, record count, and
-fingerprint, then emits RCM ready findings with criteria, condition, cause, effect,
-source references, and human approved response guidance.
+1. The source provenance gate checks required sources, record counts, SHA-256 fingerprints, and collection metadata. The review fails closed if a source is missing, changed, unrecorded, or incomplete.
+2. The control reconciles every materialized expected execution to Kubernetes, AWS orchestration, or AWS Backup evidence.
+3. It evaluates job failure response, backup replacement and resolution, and recoverability testing for the complete operation population.
+4. It writes RCM ready evidence and one exception case for every detected condition.
+
+Automation may detect, route, and recommend. A human approved decision is required before a production change, risk acceptance, or exception closure.
 
 ## Quick start
 
@@ -51,45 +47,70 @@ python -m venv .venv
 .venv/bin/python -m src.main
 ```
 
-Generated evidence is written to:
+Use `--fail-on-findings` in a monitor to return exit code `2` when exceptions exist. Invalid evidence returns exit code `3`.
+
+## Sample output
+
+```text
+BATCH JOB AND BACKUP OPERATIONS CONTROL
+Input provenance valid: True
+Population reconciled: True
+Expected executions evaluated: 8
+Restore test populations evaluated: 3
+Findings: 5
+[HIGH] OPS-01 k8s-settlement-export: Expected execution EXP-JOB-002 has no recorded result.
+[HIGH] OPS-02 aws-revenue-rollup: SFN-RUN-2003 was not resolved within the 4-hour SLA; SFN-RUN-2003 lacks data integrity evidence.
+[HIGH] OPS-03 aws-s3-ledger: BKP-RUN-3003 lacks a resolved incident; BKP-RUN-3003 has no successful replacement backup.
+```
+
+The generated evidence package is:
 
 ```text
 output/
-  control_evidence.json   Run, source, population, evaluation, and finding detail
+  control_evidence.json   Source provenance, population results, evaluations, and findings
   exceptions.csv          RCM ready exception register
-  cases/OPS-*.md          One human owned response case per finding
+  cases/OPS-*.md          One human owned exception case per finding
 ```
 
-Exit code `0` means the review executed successfully. `--fail-on-findings` returns
-`2` when exceptions exist. Invalid evidence returns `3`, so a source failure cannot
-look like a clean control result.
+## Continuous monitoring
 
-## Continuous monitoring and response boundary
+GitHub Actions runs the test suite and a sample review on every push and pull request. The Operations Control Monitor runs every weekday, on demand, and after changes to the control inputs. It retains the evidence package for 90 days before signaling a failure when findings exist.
 
-GitHub Actions runs tests and a sample review on each change. A weekday monitor also
-runs on demand and after changes to control inputs. It always uploads the complete
-evidence package, then turns red when exceptions exist. This is expected for the
-seeded sample.
+The fixture intentionally contains exceptions, so a red monitor result is expected until the fictional conditions are resolved. The monitor never closes a case automatically. A control owner must approve the response, complete mitigation and follow up work, document root cause, attach closure evidence, address escalation, and approve closure. Job response uses a four hour SLA; backup response uses a 24 hour SLA. Immediate escalation applies to financial processing failure, data loss risk, or unavailable recoverability.
 
-Automation may detect, route, and recommend; it cannot mutate production, approve a
-risk decision, or close a case. Every generated case requires an authorized human to
-approve remediation, complete mitigation and root cause work, attach closure
-evidence, address escalation, and approve closure.
+## Production design and limitations
 
-## Repository map
+This POC uses static fictional extracts. A production collector would read evidence from AWS Backup, CloudWatch, EventBridge, Step Functions, Kubernetes APIs and audit logs, the incident platform, and the resilience test registry. It should use least privilege identities that can collect evidence but cannot modify the workloads being observed.
+
+Production operation also requires independent completeness reconciliation across cloud accounts, clusters, applications, and financial processes; durable evidence retention; schedule expansion for timezones, dependencies, retries, holidays, and late arrivals; and isolated restore testing that validates recovery objectives. Automation must not rerun workloads, alter backup policies, restore data, approve risk, or close a case without a documented human approved decision.
+
+## Control mapping
+
+| RCM attribute | Definition |
+|---|---|
+| Control ID | ITGC-OPS-001 |
+| Control name | Batch Job and Backup Operations |
+| Framework context | SOX ITGC operations; Cloud Native ITGC Automation portfolio |
+| Risk category | `it_operations` |
+| Risk | Failure to execute, monitor, resolve, and recover scheduled processing and backups could result in incomplete, inaccurate, unavailable, or untimely financial data. |
+| Control description | Management performs daily monitoring of scheduled jobs and backups in scope and periodically validates backup recoverability, investigating failures and retaining resolution and data integrity evidence. |
+| Objective | Scheduled jobs and backups in scope complete as required, failures are resolved timely, and backup recoverability is periodically validated. |
+| Frequency | Daily for executions; per policy for restore testing. |
+| Population | All scheduled jobs and backups in scope, their execution records, failures, and restore tests for the review period. |
+| Evidence contract | [Source provenance and evidence contract](docs/evidence_contract.md) |
+
+The detailed control narrative, reviewer procedure, and RCM rule mapping are in [docs/rcm_and_control_narrative.md](docs/rcm_and_control_narrative.md). The production considerations are in [docs/production_design.md](docs/production_design.md).
+
+## Repository layout
 
 ```text
-config.yaml                 Control, rules, and response guidance aligned to the portfolio
-data/                       Fictional cloud, schedule, incident, and restore evidence
-data/source_manifest.json   Query provenance, row counts, and file fingerprints
-src/                        Validation that fails closed, evaluation, and reporting
+config.yaml                 Control definition, rules, response guidance, and source scope
+data/                       Fictional schedule, cloud execution, backup, incident, and restore evidence
+data/source_manifest.json   Source provenance, record counts, and SHA-256 fingerprints
+src/                        Validation, evaluation, and RCM ready reporting
 tests/                      Rule, integrity, population, and output tests
-docs/                       Evidence contract, RCM narrative, production design
+docs/                       Control narrative, evidence contract, and production design
 .github/workflows/          CI and scheduled control monitoring
 ```
-
-See [the control narrative](docs/rcm_and_control_narrative.md),
-[evidence contract](docs/evidence_contract.md), and
-[production design](docs/production_design.md) for implementation detail.
 
 MIT — see [LICENSE](LICENSE).
