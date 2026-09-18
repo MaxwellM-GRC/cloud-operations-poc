@@ -7,11 +7,15 @@ incident platform, and the resilience test registry. Collection identities shoul
 be independently managed, least privileged, monitored, and unable to change the
 workloads they observe.
 
+## Human decision boundary
+
 The key design boundary is between detection and response. The detector may create
-or update a case and recommend a reversible action. An accountable human must
-approve any rerun, scheduler change, backup policy change, restore, risk acceptance,
-or closure. High risk production actions should use the organization's change and
-privileged access controls.
+or update an exception case and recommend a reversible action. The control owner or
+an authorized delegate must make and record the decision to approve any rerun,
+scheduler change, backup policy change, restore, risk acceptance, escalation, or
+closure. Automation must not make these decisions or execute the associated
+production action. High risk production actions should use the organization's change
+and privileged access controls.
 
 Important production additions include:
 

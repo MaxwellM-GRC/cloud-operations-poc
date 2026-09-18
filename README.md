@@ -82,7 +82,11 @@ The fixture intentionally contains exceptions, so a red monitor result is expect
 
 This POC uses static fictional extracts. A production collector would read evidence from AWS Backup, CloudWatch, EventBridge, Step Functions, Kubernetes APIs and audit logs, the incident platform, and the resilience test registry. It should use least privilege identities that can collect evidence but cannot modify the workloads being observed.
 
-Production operation also requires independent completeness reconciliation across cloud accounts, clusters, applications, and financial processes; durable evidence retention; schedule expansion for timezones, dependencies, retries, holidays, and late arrivals; and isolated restore testing that validates recovery objectives. Automation must not rerun workloads, alter backup policies, restore data, approve risk, or close a case without a documented human approved decision.
+Production operation also requires independent completeness reconciliation across cloud accounts, clusters, applications, and financial processes; durable evidence retention; schedule expansion for timezones, dependencies, retries, holidays, and late arrivals; and isolated restore testing that validates recovery objectives.
+
+### Human decision boundary
+
+Automation is limited to read only evidence collection, detection, case routing, and recommendations. The control owner or an authorized delegate must make and record the decision to rerun a workload, change a scheduler or backup policy, initiate a restore, accept risk, escalate, or close an exception case. Automation must never make those decisions or execute those production actions.
 
 ## Control mapping
 
@@ -97,6 +101,7 @@ Production operation also requires independent completeness reconciliation acros
 | Objective | Scheduled jobs and backups in scope complete as required, failures are resolved timely, and backup recoverability is periodically validated. |
 | Frequency | Daily for executions; per policy for restore testing. |
 | Population | All scheduled jobs and backups in scope, their execution records, failures, and restore tests for the review period. |
+| Activity | Reconcile expected job and backup schedules to system generated execution logs, incident records, rerun outcomes, and restore test evidence. |
 | Evidence contract | [Source provenance and evidence contract](docs/evidence_contract.md) |
 
 The detailed control narrative, reviewer procedure, and RCM rule mapping are in [docs/rcm_and_control_narrative.md](docs/rcm_and_control_narrative.md). The production considerations are in [docs/production_design.md](docs/production_design.md).

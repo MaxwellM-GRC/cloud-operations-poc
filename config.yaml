@@ -1,11 +1,14 @@
 control:
   id: ITGC-OPS-001
   name: Batch Job and Backup Operations
+  source_checklist: SOX_Computer_Operations_Backup_Job_Scheduling_Checklist.docx
   risk_category: it_operations
   owner: Cloud Operations Control Owner
   risk: Failure to execute, monitor, resolve, and recover scheduled processing and backups could result in incomplete, inaccurate, unavailable, or untimely financial data.
   description: Management performs daily monitoring of scheduled jobs and backups in scope and periodically validates backup recoverability, investigating failures and retaining resolution and data integrity evidence.
+  control_description: Management performs daily monitoring of scheduled jobs and backups in scope and periodically validates backup recoverability, investigating failures and retaining resolution and data integrity evidence.
   objective: Scheduled jobs and backups in scope complete as required, failures are resolved timely, and backup recoverability is periodically validated.
+  activity: Reconcile expected job and backup schedules to system generated execution logs, incident records, rerun outcomes, and restore test evidence.
   frequency: Daily for executions; per policy for restore testing.
   population: All scheduled jobs and backups in scope, their execution records, failures, and restore tests for the review period.
 

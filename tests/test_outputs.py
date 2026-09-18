@@ -28,6 +28,9 @@ def test_evidence_contains_rcm_and_provenance_fields(tmp_path):
     payload = json.loads(path.read_text())
     assert payload["control"]["risk"].startswith("Failure to")
     assert payload["control"]["description"].startswith("Management performs")
+    assert payload["control"]["control_description"].startswith("Management performs")
+    assert payload["control"]["source_checklist"] == "SOX_Computer_Operations_Backup_Job_Scheduling_Checklist.docx"
+    assert payload["control"]["activity"]
     assert payload["source_provenance"][0]["actual_sha256"]
     assert {"criteria", "condition", "cause", "effect"} <= payload["findings"][0].keys()
 
