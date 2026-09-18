@@ -1,0 +1,8 @@
+operation_id,operation_type,platform,name,resource,criticality,owner,restore_test_frequency_days
+k8s-close-ledger,job,kubernetes,Close ledger batches,cronjob/close-ledger,critical,Financial Systems Operations,
+k8s-settlement-export,job,kubernetes,Settlement export,cronjob/settlement-export,high,Treasury Operations,
+aws-revenue-rollup,job,aws_step_functions,Revenue rollup,state-machine/revenue-rollup,critical,Financial Systems Operations,
+k8s-ap-aging,job,kubernetes,AP aging refresh,cronjob/ap-aging,high,ERP Operations,
+aws-rds-finance,backup,aws_backup,Finance database backup,arn:aws:rds:us-west-2:111122223333:db:fictional-finance,critical,Cloud Resilience,90
+aws-s3-ledger,backup,aws_backup,Ledger archive backup,arn:aws:s3:::fictional-ledger-archive,critical,Cloud Resilience,90
+k8s-app-state,backup,aws_backup,Kubernetes application-state backup,arn:aws:backup:us-west-2:111122223333:recovery-point:fictional-k8s,high,Cloud Resilience,90

@@ -1,0 +1,5 @@
+incident_id,operation_id,opened_at,resolved_at,status,resolution_summary,data_integrity_evidence,approved_by,source_event_ref
+INC-2403,aws-revenue-rollup,2026-09-03T03:18:00Z,2026-09-03T10:30:00Z,resolved,Dependency repaired and workflow rerun,,Morgan Lee,servicenow/incident/INC-2403
+INC-2404,k8s-ap-aging,2026-09-04T04:01:00Z,2026-09-04T04:40:00Z,resolved,Approved holiday skip; downstream report reconciled,REC-AP-2026-09-04,Jordan Kim,servicenow/incident/INC-2404
+INC-2502,aws-rds-finance,2026-09-03T05:09:00Z,2026-09-03T09:02:00Z,resolved,KMS grant corrected and replacement backup verified,N/A,Alex Rivera,servicenow/incident/INC-2502
+INC-2503,aws-s3-ledger,2026-09-04T05:08:00Z,,open,Awaiting storage-policy correction,,Taylor Brooks,servicenow/incident/INC-2503

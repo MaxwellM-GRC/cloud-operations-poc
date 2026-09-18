@@ -1,0 +1,6 @@
+execution_id,expectation_id,operation_id,started_at,completed_at,status,incident_id,replacement_for,source_event_ref
+BKP-RUN-3001,EXP-BKP-001,aws-rds-finance,2026-09-02T05:00:02Z,2026-09-02T05:41:30Z,completed,,,aws-backup/job-3001
+BKP-RUN-3002,EXP-BKP-002,aws-rds-finance,2026-09-03T05:00:02Z,2026-09-03T05:07:44Z,failed,INC-2502,,aws-backup/job-3002
+BKP-RUN-3002R,EXP-BKP-002,aws-rds-finance,2026-09-03T08:10:00Z,2026-09-03T08:54:31Z,completed,INC-2502,BKP-RUN-3002,aws-backup/job-3002-retry
+BKP-RUN-3003,EXP-BKP-003,aws-s3-ledger,2026-09-04T05:00:02Z,2026-09-04T05:05:19Z,failed,INC-2503,,aws-backup/job-3003
+BKP-RUN-3004,EXP-BKP-004,k8s-app-state,2026-09-05T05:00:02Z,2026-09-05T05:22:19Z,completed,,,aws-backup/job-3004

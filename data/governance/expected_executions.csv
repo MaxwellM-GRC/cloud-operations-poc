@@ -1,0 +1,9 @@
+expectation_id,operation_id,scheduled_at,source_schedule_ref
+EXP-JOB-001,k8s-close-ledger,2026-09-02T01:00:00Z,cronjob/close-ledger@rv-441
+EXP-JOB-002,k8s-settlement-export,2026-09-02T02:00:00Z,cronjob/settlement-export@rv-308
+EXP-JOB-003,aws-revenue-rollup,2026-09-03T03:00:00Z,eventbridge/rule/revenue-rollup@v17
+EXP-JOB-004,k8s-ap-aging,2026-09-04T04:00:00Z,cronjob/ap-aging@rv-902
+EXP-BKP-001,aws-rds-finance,2026-09-02T05:00:00Z,backup-plan/finance-daily@v12
+EXP-BKP-002,aws-rds-finance,2026-09-03T05:00:00Z,backup-plan/finance-daily@v12
+EXP-BKP-003,aws-s3-ledger,2026-09-04T05:00:00Z,backup-plan/ledger-daily@v8
+EXP-BKP-004,k8s-app-state,2026-09-05T05:00:00Z,backup-plan/k8s-daily@v5

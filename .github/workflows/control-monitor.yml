@@ -1,0 +1,43 @@
+name: Operations Control Monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "25 8 * * 1-5"
+  push:
+    branches: [main]
+    paths:
+      - "config.yaml"
+      - "data/**"
+      - "src/**"
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Evaluate complete operations population
+        id: control
+        continue-on-error: true
+        run: python -m src.main --fail-on-findings
+      - name: Retain evidence and individual exception cases
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: operations-control-evidence-${{ github.run_id }}
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Surface control exceptions after preserving evidence
+        if: steps.control.outcome == 'failure'
+        run: |
+          echo "ITGC-OPS-001 detected exceptions. Review the uploaded register and individual cases."
+          exit 1

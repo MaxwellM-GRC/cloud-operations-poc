@@ -1,0 +1,2 @@
+execution_id,expectation_id,operation_id,started_at,completed_at,status,incident_id,source_event_ref
+SFN-RUN-2003,EXP-JOB-003,aws-revenue-rollup,2026-09-03T03:00:01Z,2026-09-03T03:16:20Z,failed,INC-2403,cloudwatch/log-event-882103

@@ -1,0 +1,68 @@
+control:
+  id: ITGC-OPS-001
+  name: Batch Job and Backup Operations
+  risk_category: it_operations
+  owner: Cloud Operations Control Owner
+  risk: Failure to execute, monitor, resolve, and recover scheduled processing and backups could result in incomplete, inaccurate, unavailable, or untimely financial data.
+  description: Management performs daily monitoring of scheduled jobs and backups in scope and periodically validates backup recoverability, investigating failures and retaining resolution and data integrity evidence.
+  objective: Scheduled jobs and backups in scope complete as required, failures are resolved timely, and backup recoverability is periodically validated.
+  frequency: Daily for executions; per policy for restore testing.
+  population: All scheduled jobs and backups in scope, their execution records, failures, and restore tests for the review period.
+
+review_window:
+  start: "2026-09-01T00:00:00Z"
+  end: "2026-09-07T23:59:59Z"
+  as_of: "2026-09-07T23:59:59Z"
+
+parameters:
+  job_resolution_sla_hours: 4
+  backup_resolution_sla_hours: 24
+
+sources:
+  - data/governance/in_scope_operations.csv
+  - data/governance/expected_executions.csv
+  - data/kubernetes/cronjob_executions.csv
+  - data/aws/orchestrator_executions.csv
+  - data/aws/backup_jobs.csv
+  - data/governance/incidents.csv
+  - data/governance/restore_tests.csv
+
+rules:
+  OPS-01:
+    assertion: Each expected job and backup has a recorded execution result.
+    severity: high
+  OPS-02:
+    assertion: Failed, delayed, or skipped jobs have timely incident, resolution, and data integrity evidence.
+    severity: high
+  OPS-03:
+    assertion: Backup failures are resolved and successful backup completion is evidenced.
+    severity: high
+  OPS-04:
+    assertion: Required restore/recoverability tests occur within policy frequency and pass or have approved remediation.
+    severity: high
+
+response_guidance:
+  OPS-01:
+    remediation: Confirm the schedule, start the missing workload where safe, and repair monitoring or scheduler configuration.
+    mitigation: Reconcile expected inputs and outputs for the affected processing window and determine whether financial reporting was delayed or incomplete.
+    root_cause: Determine whether scheduling, dependency, monitoring, source collection, or scope inventory failure caused the missing result.
+    closure_evidence: Scheduler and execution logs, rerun outcome, completeness and accuracy reconciliation, and monitoring repair evidence.
+    escalation: Escalate immediately for a financially significant missed process or when execution cannot be confirmed.
+  OPS-02:
+    remediation: Repair or rerun the workload, resolve the incident within the approved SLA, and document the completed corrective action.
+    mitigation: Perform completeness and accuracy reconciliation for the impacted processing window and review downstream effects.
+    root_cause: Determine whether dependency, capacity, code, configuration, scheduling, or operational response failure caused the exception.
+    closure_evidence: Incident record, execution or rerun logs, resolution timestamp, and signed data integrity reconciliation.
+    escalation: Escalate immediately for financial processing failure or when the resolution SLA is breached.
+  OPS-03:
+    remediation: Repair the backup policy or protected resource and obtain a successful replacement backup.
+    mitigation: Assess data loss exposure and execute a restore test when recoverability cannot otherwise be demonstrated.
+    root_cause: Determine whether policy, permission, retention, storage, encryption, capacity, or operational response failure caused the backup exception.
+    closure_evidence: Failed and successful backup job records, incident closure, protected resource status, and any restore result.
+    escalation: Escalate immediately when data loss risk exists or no recoverable backup is available.
+  OPS-04:
+    remediation: Schedule and complete the overdue or failed restore test, or obtain time bound risk acceptance and an approved remediation plan.
+    mitigation: Validate alternate recovery evidence, assess recovery point and recovery time exposure, and prioritize critical financial systems.
+    root_cause: Determine whether test scheduling, environment, backup integrity, runbook, dependency, or ownership failure caused the gap.
+    closure_evidence: Restore logs, validation results, measured recovery objectives, approver, remediation record, and follow up test evidence.
+    escalation: Escalate immediately for unavailable recoverability; otherwise escalate when the testing frequency is breached without approved remediation.

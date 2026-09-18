@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-08T00:15:00Z",
+  "sources": [
+    {
+      "path": "data/governance/in_scope_operations.csv",
+      "source_system": "Fictional Cloud Operations CMDB",
+      "query_or_export": "operations in SOX scope effective 2026-09-07",
+      "collected_at": "2026-09-08T00:10:00Z",
+      "record_count": 7,
+      "sha256": "6a1bf29b32d53c1bc4e75e0e657b87647458fb543313d335aaa7bce79e48d665"
+    },
+    {
+      "path": "data/governance/expected_executions.csv",
+      "source_system": "Fictional Schedule Registry",
+      "query_or_export": "materialized expected occurrences for 2026-09-01 through 2026-09-07",
+      "collected_at": "2026-09-08T00:10:30Z",
+      "record_count": 8,
+      "sha256": "c5e8ba857d1c9a2d862d902298af6bce3f69797ac55a1b8a2e36b0c912d45502"
+    },
+    {
+      "path": "data/kubernetes/cronjob_executions.csv",
+      "source_system": "Fictional Amazon EKS audit and CronJob APIs",
+      "query_or_export": "CronJob executions in scope with scheduled timestamps in review window",
+      "collected_at": "2026-09-08T00:11:00Z",
+      "record_count": 2,
+      "sha256": "0e0939623d3b391359511e58df73359857f9e7f856b057d2bb4dc87e2d7e2449"
+    },
+    {
+      "path": "data/aws/orchestrator_executions.csv",
+      "source_system": "Fictional AWS Step Functions and CloudWatch Logs",
+      "query_or_export": "state machine executions for schedules in scope in the review window",
+      "collected_at": "2026-09-08T00:11:30Z",
+      "record_count": 1,
+      "sha256": "d437deeaf0229dd5b605779612eb124dbe377fe0dce2b6fdd0f57428ed1768e0"
+    },
+    {
+      "path": "data/aws/backup_jobs.csv",
+      "source_system": "Fictional AWS Backup",
+      "query_or_export": "ListBackupJobs for resources in scope and the review window",
+      "collected_at": "2026-09-08T00:12:00Z",
+      "record_count": 5,
+      "sha256": "04a2937d378902f46ec9205c2e1b2d279d3273e9d6ba3b06ba04cbeb409ac0fb"
+    },
+    {
+      "path": "data/governance/incidents.csv",
+      "source_system": "Fictional ServiceNow",
+      "query_or_export": "operations incidents linked to executions in scope in the review window",
+      "collected_at": "2026-09-08T00:12:30Z",
+      "record_count": 4,
+      "sha256": "132fd340eaa2e86edb7225bb57b7c4b88d83edb1338ae0ff928c360b8ad3cef9"
+    },
+    {
+      "path": "data/governance/restore_tests.csv",
+      "source_system": "Fictional Resilience Test Registry and AWS Backup",
+      "query_or_export": "latest restore test per backup resource in scope as of 2026-09-07",
+      "collected_at": "2026-09-08T00:13:00Z",
+      "record_count": 3,
+      "sha256": "d192b73e462a9ad4e1e5e1b4b6523f4d7ce97b7933148569062253837a43c605"
+    }
+  ]
+}
