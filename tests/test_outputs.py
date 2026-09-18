@@ -32,7 +32,7 @@ def test_evidence_contains_rcm_and_provenance_fields(tmp_path):
     assert payload["control"]["source_checklist"] == "SOX_Computer_Operations_Backup_Job_Scheduling_Checklist.docx"
     assert payload["control"]["activity"]
     assert payload["source_provenance"][0]["actual_sha256"]
-    assert {"criteria", "condition", "cause", "effect"} <= payload["findings"][0].keys()
+    assert {"criteria", "condition", "cause", "effect", "response_sla", "recurrence"} <= payload["findings"][0].keys()
 
 
 def test_exception_register_and_cases_are_one_per_finding(tmp_path):
@@ -45,4 +45,7 @@ def test_exception_register_and_cases_are_one_per_finding(tmp_path):
         rows = list(csv.DictReader(handle))
     assert len(rows) == len(result.findings) == len(list(cases.glob("*.md")))
     assert all(row["status"] == "Open - human decision required" for row in rows)
-    assert "Automation may detect" in next(cases.glob("*.md")).read_text()
+    case_text = next(cases.glob("*.md")).read_text()
+    assert "Automation may detect" in case_text
+    assert "Response SLA addressed" in case_text
+    assert "Recurrence assessment" in case_text

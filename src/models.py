@@ -44,6 +44,8 @@ class Finding:
     root_cause_guidance: str
     closure_evidence: str
     escalation: str
+    response_sla: str
+    recurrence: str
 
     def as_dict(self) -> dict:
         return {**asdict(self), "evidence_refs": list(self.evidence_refs)}

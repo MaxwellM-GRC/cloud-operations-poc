@@ -15,7 +15,8 @@ EXCEPTION_COLUMNS = [
     "run_id", "finding_id", "control_id", "rule_id", "severity", "operation_id",
     "operation_type", "platform", "criteria", "condition", "cause", "effect",
     "evidence_refs", "remediation", "mitigation", "root_cause_guidance",
-    "closure_evidence", "escalation", "status", "human_approver", "closure_date",
+    "closure_evidence", "escalation", "response_sla", "recurrence", "status",
+    "human_approver", "closure_date",
 ]
 
 
@@ -73,7 +74,9 @@ def write_cases(result: ReviewResult, config: dict, directory: Path) -> None:
 - [ ] Mitigation/lookback completed: {finding.mitigation}
 - [ ] Root cause documented: {finding.root_cause_guidance}
 - [ ] Closure evidence attached: {finding.closure_evidence}
+- [ ] Response SLA addressed: {finding.response_sla}
 - [ ] Escalation requirement addressed: {finding.escalation}
+- [ ] Recurrence assessment and follow up recorded: {finding.recurrence}
 - [ ] `{config['control']['owner']}` approves closure and records the closure date.
 
 Automation may detect, route, and recommend. It must not mutate production,

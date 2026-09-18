@@ -14,7 +14,7 @@ The fictional fixture includes a missing settlement export, a late revenue rollu
 
 ## What this control tests
 
-| Rule ID | Control assertion | Severity |
+| Control ID | Control description | Severity |
 |---|---|---|
 | OPS-01 | Each expected job and backup has a recorded execution result. | High |
 | OPS-02 | Failed, delayed, or skipped jobs have timely incident, resolution, and data integrity evidence. | High |
@@ -74,7 +74,7 @@ output/
 
 ## Continuous monitoring
 
-GitHub Actions runs the test suite and a sample review on every push and pull request. The Operations Control Monitor runs every weekday, on demand, and after changes to the control inputs. It retains the evidence package for 90 days before signaling a failure when findings exist.
+GitHub Actions runs the test suite and a sample review on every push and pull request. The Operations Control Monitor runs every weekday, on demand, and after changes to the control inputs. It retains the evidence package for 90 days, then opens or updates one GitHub exception case for each finding before signaling a failure when findings exist.
 
 The fixture intentionally contains exceptions, so a red monitor result is expected until the fictional conditions are resolved. The monitor never closes a case automatically. A control owner must approve the response, complete mitigation and follow up work, document root cause, attach closure evidence, address escalation, and approve closure. Job response uses a four hour SLA; backup response uses a 24 hour SLA. Immediate escalation applies to financial processing failure, data loss risk, or unavailable recoverability.
 

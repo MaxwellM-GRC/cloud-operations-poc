@@ -16,6 +16,12 @@ language, source checks, population counts, every expectation and restore test
 evaluation, and every finding. `exceptions.csv` is the RCM ready register. Each
 Markdown file under `output/cases/` is an individual, human owned response record.
 
+Each exception case records the control owner, remediation, mitigation and lookback,
+root cause, closure evidence, response SLA, escalation, recurrence assessment, and
+human closure approval. The scheduled monitor opens or updates a corresponding
+GitHub Issue only after evidence is retained. Detection does not authorize or perform
+remediation, risk acceptance, or closure.
+
 Production collectors should use provider API request IDs, account/cluster and
 region identifiers, export object versions, and immutable evidence storage. They
 should separately prove that the schedule registry and CMDB contain every financial

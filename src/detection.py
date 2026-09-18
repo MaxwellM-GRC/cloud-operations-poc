@@ -23,6 +23,7 @@ def _finding(config: dict, rule_id: str, operation: dict, condition: str,
         condition, config["rules"][rule_id]["assertion"], cause, effect,
         tuple(evidence_refs), guidance["remediation"], guidance["mitigation"],
         guidance["root_cause"], guidance["closure_evidence"], guidance["escalation"],
+        guidance["response_sla"], guidance["recurrence"],
     )
 
 

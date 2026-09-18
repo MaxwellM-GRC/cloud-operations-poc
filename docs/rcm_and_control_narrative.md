@@ -10,6 +10,8 @@
 | Objective | Scheduled jobs and backups in scope complete as required, failures are resolved timely, and backup recoverability is periodically validated. |
 | Population | All scheduled jobs and backups in scope, their execution records, failures, and restore tests for the review period. |
 | Frequency | Daily for executions; per policy for restore testing. |
+| Source checklist | SOX_Computer_Operations_Backup_Job_Scheduling_Checklist.docx |
+| Activity | Reconcile expected job and backup schedules to system generated execution logs, incident records, rerun outcomes, and restore test evidence. |
 | Nature | Automated detection with human approved response and closure. |
 
 ## Rule design
@@ -25,6 +27,14 @@ The detector creates one finding per affected operation and rule. Each finding u
 criteria, condition, cause, and effect fields, evidence references, severity, and
 full exception response guidance. Stable finding IDs support case correlation across
 runs. Automation never remediates production or approves/ closes its own cases.
+
+## Exception case lifecycle
+
+The monitor retains the evidence package, then opens or updates one GitHub exception
+case per finding. An authorized owner reviews the remediation and mitigation or
+lookback, records root cause and recurrence, meets the response SLA or documents
+escalation, attaches closure evidence, and approves closure. Automation cannot make
+the decision to remediate, accept risk, escalate, or close a case.
 
 ## Reviewer procedure
 
